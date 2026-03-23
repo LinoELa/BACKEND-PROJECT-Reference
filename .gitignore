@@ -1,0 +1,69 @@
+# Dependencias instaladas por el backend
+node_modules/
+
+# Salidas generadas por build, cobertura o empaquetado
+dist/
+build/
+coverage/
+
+# Caches y metadatos de herramientas locales
+.cache/
+.eslintcache
+*.tsbuildinfo
+
+# Variables de entorno y overrides por maquina
+*.temp
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.local
+
+# Logs y archivos temporales de ejecucion
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+pids/
+*.pid
+*.pid.lock
+*.seed
+
+# Temporales e historiales locales
+tmp/
+temp/
+*.tmp
+*~
+.node_repl_history
+**/*.backup.*
+**/*.back.*
+
+# Configuracion de editores y del IDE
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sublime-project
+*.sublime-workspace
+
+# Archivos generados por el sistema operativo
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Copias auxiliares de lockfiles del gestor de paquetes
+package-lock.json.*
+yarn.lock.*
+pnpm-lock.yaml.*

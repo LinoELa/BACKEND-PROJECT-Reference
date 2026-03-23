@@ -1,0 +1,31 @@
+{
+  "name": "express-server",
+  "version": "1.0.0",
+  "description": "A simple Express server",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node  src/server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LinoELa/PedroTech-express.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/LinoELa/PedroTech-express/issues"
+  },
+  "homepage": "https://github.com/LinoELa/PedroTech-express#readme"
+}
