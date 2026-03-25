@@ -1,12 +1,19 @@
-// ======================= AUTENTIFICACION ================================
+// ======================= IMPORTS =========================================
 
 import bcrypt from "bcryptjs";
-import { prisma } from "../config/db.js";
+import { prisma } from "../../config/db.js";
+
+// ======================= AUTH | REGISTER CONTROLLER ======================
 
 /**
- * Registrar un nuevo usuario.
- * Recibe name, email y password desde req.body.
+ * Controller de registro.
+ * Este archivo recibe los datos del usuario, valida duplicados,
+ * aplica hashing con bcryptjs y crea el usuario en la base de datos.
+ *
+ * @REGISTER | POST /api/auth/register
+ *
  */
+
 const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;

@@ -9,7 +9,8 @@ En un flujo normal de backend, el usuario:
 1. se registra
 2. inicia sesion
 3. recibe un token
-4. envia ese token en rutas protegidas
+4. usa ese token en rutas protegidas
+5. puede cerrar sesion con logout
 
 ## Que es JWT
 
@@ -17,11 +18,21 @@ JWT significa `JSON Web Token`.
 
 Es un token que el servidor genera despues de validar al usuario. Luego el cliente lo manda en cada peticion protegida.
 
-Normalmente se envia asi:
+Normalmente se puede usar de dos formas:
 
-```http
-Authorization: Bearer <token>
+- en el header `Authorization: Bearer <token>`
+- guardado en una cookie `httpOnly`
+
+## Instalacion de librerias
+
+Para esta parte del proyecto vas a usar:
+
+```bash
+npm install jsonwebtoken bcryptjs
 ```
+
+- `bcryptjs`: para hacer hashing de passwords
+- `jsonwebtoken`: para generar y verificar JWT
 
 ## Flujo comun de autenticacion
 
@@ -29,7 +40,7 @@ Authorization: Bearer <token>
 
 En el registro normalmente haces esto:
 
-- recibir nombre, email y password
+- recibir `name`, `email` y `password`
 - validar que los campos existan
 - comprobar si el usuario ya existe
 - hacer hashing de la password con `bcryptjs`
@@ -41,9 +52,82 @@ En el registro normalmente haces esto:
 En el login normalmente haces esto:
 
 - buscar al usuario por email
-- comprobar la password
+- comprobar la password con `bcrypt.compare()`
 - generar un token JWT
 - devolver el token al frontend
+- opcionalmente guardar el token en cookie
+
+### Logout
+
+En el logout normalmente haces esto:
+
+- limpiar la cookie del token
+- devolver una respuesta de exito
+
+## JWT_SECRET y archivo `.env`
+
+Para firmar el token necesitas una clave secreta.
+
+Esa clave no debe escribirse directamente dentro del codigo. Debe guardarse en el archivo `.env`.
+
+Si este proyecto se usa como template, primero copia `.env.example` a `.env` y luego rellena los valores reales.
+
+```bash
+cp .env.example .env
+```
+
+En Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Ejemplo:
+
+```env
+NODE_ENV=development
+PORT=3000
+DATABASE_URL="tu_url_de_postgresql"
+JWT_SECRET="tu_clave_super_secreta"
+JWT_EXPIRES_IN="7d"
+```
+
+- `JWT_SECRET`: clave privada usada para firmar el token
+- `JWT_EXPIRES_IN`: tiempo de expiracion del token, por ejemplo `1d`, `7d` o `12h`
+
+## Como generar una clave secreta segura
+
+### macOS y Linux
+
+```bash
+openssl rand -base64 32
+```
+
+### Windows
+
+Si tienes OpenSSL instalado o usas Git Bash, puedes probar:
+
+```bash
+openssl rand -base64 32
+```
+
+Si `openssl` no funciona en Windows, usa PowerShell:
+
+```powershell
+$bytes = New-Object byte[] 32
+[Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($bytes)
+[Convert]::ToBase64String($bytes)
+```
+
+### Opcion alternativa con Node.js
+
+Esta opcion funciona en Windows, macOS y Linux si ya tienes Node.js instalado:
+
+```bash
+node --input-type=module -e "import { randomBytes } from 'node:crypto'; console.log(randomBytes(32).toString('base64'))"
+```
+
+Despues copias ese valor y lo pegas en `.env` dentro de `JWT_SECRET`.
 
 ## Que hace un Controller
 
@@ -55,80 +139,95 @@ Por ejemplo:
 - el controller procesa la informacion
 - el controller devuelve la respuesta
 
-### Ejemplo de separacion
-
-```javascript
-router.post("/register", register);
-```
-
-Aqui el router solo define la ruta. La funcion `register` vive en el controller.
-
-## Estructura recomendada
+## Estructura actual del proyecto
 
 ```text
 src/
   controllers/
-    authController.js
+    auth/
+      registerController.js
+      loginController.js
+      logoutController.js
   routers/
     authRouters.js
+  utils/
+    token/
+      generateToken.js
   config/
     db.js
 ```
 
-## Ejemplo de controller basico
+## Rutas actuales de auth
 
 ```javascript
-const register = async (req, res) => {
-  const body = req.body;
-
-  return res.status(201).json({
-    message: "Usuario registrado correctamente",
-    data: body,
-  });
-};
-
-export { register };
-```
-
-## Ejemplo de router basico
-
-```javascript
-import express from "express";
-import { register } from "../controllers/authController.js";
-
-const router = express.Router();
-
 router.post("/register", register);
-
-export default router;
+router.post("/login", login);
+router.post("/logout", logout);
 ```
 
-## Buenas practicas en autenticacion
+## Que hace cada archivo
 
-- no guardes passwords en texto plano
-- usa hash con `bcryptjs`
-- valida email y password antes de guardar
-- no devuelvas la password en la respuesta
-- usa variables de entorno para la clave secreta del JWT
-- separa router, controller y acceso a base de datos
+### `registerController.js`
 
-## Librerias comunes para auth
+- recibe los datos del usuario
+- valida campos obligatorios
+- comprueba si el email ya existe
+- hace hashing con `bcryptjs`
+- crea el usuario en Prisma
 
-```bash
-npm install jsonwebtoken bcryptjs
+### `loginController.js`
+
+- recibe `email` y `password`
+- busca al usuario por email
+- compara la password con `bcrypt.compare()`
+- genera el token con `generateToken(user.id, res)`
+- devuelve el token y los datos basicos del usuario
+
+### `logoutController.js`
+
+- limpia la cookie `token`
+- devuelve `200 OK`
+
+### `generateToken.js`
+
+- recibe `userId`
+- firma un JWT con `JWT_SECRET`
+- usa `JWT_EXPIRES_IN`
+- si recibe `res`, guarda el token en una cookie `httpOnly`
+
+## Ejemplo real de login controller
+
+```javascript
+const token = generateToken(user.id, res);
+
+return res.status(200).json({
+  message: "Login exitoso",
+  data: {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+  },
+  token,
+});
+```
+
+## Ejemplo real de logout controller
+
+```javascript
+res.clearCookie("token", {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "strict",
+});
+
+return res.status(200).json({
+  message: "Logout exitoso",
+});
 ```
 
 ## Hashing con bcryptjs
 
 Si vas a guardar passwords, primero debes convertirlas a un hash.
-
-Instalacion:
-
-```bash
-npm i bcryptjs
-```
-
-Ejemplo basico:
 
 ```javascript
 import bcrypt from "bcryptjs";
@@ -145,21 +244,72 @@ const isMatch = await bcrypt.compare(password, user.password);
 
 Si `isMatch` es `true`, la password es correcta.
 
-## Ejemplo de respuestas tipicas
+## Ejemplo basico de JWT
 
-- `201 Created`: usuario creado correctamente
+En este proyecto actual el payload es minimo y solo guarda el `id`:
+
+```javascript
+const payload = {
+  id: userId,
+};
+```
+
+La firma del token se hace asi:
+
+```javascript
+const token = jwt.sign(payload, process.env.JWT_SECRET, {
+  expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+});
+```
+
+## Cookie httpOnly
+
+Ahora mismo `generateToken(user.id, res)` tambien puede guardar el token en cookie:
+
+```javascript
+res.cookie("token", token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "strict",
+  maxAge: 1000 * 60 * 60 * 24 * 7,
+});
+```
+
+Esto ayuda a que el token no quede accesible desde JavaScript del navegador.
+
+## Codigos HTTP usados aqui
+
+- `201 Created`: usuario registrado correctamente
 - `200 OK`: login correcto
-- `400 Bad Request`: faltan datos o son invalidos
-- `401 Unauthorized`: credenciales incorrectas
+- `200 OK`: logout correcto
+- `400 Bad Request`: faltan datos
+- `401 Unauthorized`: credenciales invalidas
 - `409 Conflict`: email ya registrado
 - `500 Internal Server Error`: error interno del servidor
 
+## Checklist de esta seccion
+
+Al terminar esta parte del proyecto ya deberias tener:
+
+- registro de usuarios con hashing de password
+- login con validacion de credenciales
+- generacion de JWT
+- `JWT_SECRET` configurado en `.env`
+- logout para limpiar la cookie del token
+- rutas de auth separadas de los controllers
+- utilidad `generateToken.js` para no repetir logica
+- `.env.example` listo para reutilizar el proyecto como template
+
 ## Resumen
 
-En esta parte del proyecto, `authRouters` define las rutas y `authController` contiene la logica. Mas adelante puedes ampliar esto con:
+Ahora mismo tu modulo de auth ya tiene:
 
+- `register`
 - `login`
 - `logout`
-- middleware de autenticacion
-- middleware para proteger rutas
-- generacion y validacion de JWT
+- hashing con `bcryptjs`
+- generacion de JWT
+- uso de `.env` para secretos
+- soporte para cookie `httpOnly`
+
+El siguiente paso natural seria proteger rutas con middleware para leer y verificar el token.

@@ -1,0 +1,33 @@
+// ======================= IMPORTS =========================================
+
+// ======================= AUTH | LOGOUT CONTROLLER ========================
+
+/**
+ * Controller de logout.
+ * Este archivo se puede usar para limpiar la cookie del token
+ * y cerrar la sesion del usuario en el cliente.
+ *
+ * @LOGOUT | POST /api/auth/logout
+ *
+ */
+
+const logout = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+
+    return res.status(200).json({
+      message: "Logout exitoso",
+    });
+  } catch (error) {
+    console.error("Error logout user:", error);
+    return res.status(500).json({
+      message: "Error interno del servidor",
+    });
+  }
+};
+
+export { logout };

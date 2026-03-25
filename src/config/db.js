@@ -1,6 +1,19 @@
+// ======================= IMPORTS =========================================
+
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
+
+// ======================= DATABASE CONFIG =================================
+
+/**
+ * Configuracion de base de datos con Prisma.
+ * Este archivo crea la conexion a PostgreSQL y exporta
+ * la instancia de Prisma para reutilizarla en el proyecto.
+ *
+ * @DATABASE | Prisma + PostgreSQL
+ *
+ */
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -25,10 +38,6 @@ const connectDB = async () => {
   } catch (error) {
     console.error("Error connecting to the database:", error);
     process.exit(1);
-    /*
-     * Exit the process with an error code
-     * va a parar el servidor si no se conecta a la base de datos
-     */
   }
 };
 

@@ -1,29 +1,40 @@
+// ======================= IMPORTS =========================================
+
 import express from "express";
 import dotenv from "dotenv";
 import movieRouters from "./src/routers/movieRouters.js";
 import authRouters from "./src/routers/authRouters.js";
 import { connectDB, disconnectDB } from "./src/config/db.js";
 
-// ======================= ENV CONFIG ==========================================
+// ======================= ENV CONFIG ======================================
+
+/**
+ * Punto de entrada principal del servidor.
+ * Este archivo configura Express, registra middlewares,
+ * conecta rutas y arranca la aplicacion.
+ *
+ * @SERVER | node server.js
+ *
+ */
 
 dotenv.config();
 
-// ======================= APP CONFIG ==========================================
+// ======================= APP CONFIG ======================================
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// ======================= BODY PARSING MIDDLEWARES ============================
+// ======================= BODY PARSING MIDDLEWARES ========================
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ======================= API ROUTES ==========================================
+// ======================= API ROUTES ======================================
 
 app.use("/movies", movieRouters);
 app.use("/auth", authRouters);
 
-// ======================= START SERVER ========================================
+// ======================= START SERVER ====================================
 
 const server = app.listen(port, async () => {
   try {
@@ -35,9 +46,8 @@ const server = app.listen(port, async () => {
   }
 });
 
-// ======================= GLOBAL ERROR HANDLERS ===============================
+// ======================= GLOBAL ERROR HANDLERS ===========================
 
-// Captura promesas rechazadas que no tuvieron catch.
 process.on("unhandledRejection", async (err) => {
   console.error("Unhandled Rejection:", err);
   server.close(async () => {
@@ -46,14 +56,12 @@ process.on("unhandledRejection", async (err) => {
   });
 });
 
-// Captura errores inesperados fuera de promesas.
 process.on("uncaughtException", async (err) => {
   console.error("Uncaught Exception:", err);
   await disconnectDB();
   process.exit(1);
 });
 
-// Permite cerrar el servidor y Prisma de forma limpia.
 process.on("SIGTERM", async () => {
   console.log("SIGTERM received, shutting down gracefully");
   server.close(async () => {
