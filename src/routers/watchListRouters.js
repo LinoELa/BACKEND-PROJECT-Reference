@@ -2,6 +2,7 @@
 
 import express from "express";
 import { addToWatchListController } from "../controllers/watchList/watchListController.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 // ======================= EXPRESS ROUTER ==================================
 
@@ -11,6 +12,20 @@ import { addToWatchListController } from "../controllers/watchList/watchListCont
  */
 
 const router = express.Router();
+
+// ======================= WATCHLIST MIDDLEWARE ============================
+
+/**
+ * Antes de llegar a las rutas de watchlist,
+ * pasamos por el middleware de autenticacion.
+ *
+ * La idea es que solo un usuario autenticado
+ * pueda trabajar con su watchlist.
+ *
+ * @MIDDLEWARE | authMiddleware
+ *
+ */
+router.use(authMiddleware);
 
 // ======================= WATCHLIST ROUTES ================================
 

@@ -32,6 +32,7 @@ src/
   controllers/
     auth/
     watchList/
+  middlewares/
   routers/
   utils/
     token/
@@ -232,5 +233,7 @@ Tienes documentacion adicional en:
 - `docs/3-PostgreSQL-Prisma.md`
 - `docs/4-JWT-Authentication-Controller.md`
 - `docs/5-seed-file.md`
+- `docs/6-Watchlist-Routes-and-Controllers.md`
+- `docs/7-Middleware.md`
 - `docs/github.md`
 - `docs/prepararTodo.md`

@@ -12,6 +12,7 @@ En esta parte se han creado:
 
 - la ruta [`watchListRouters.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/routers/watchListRouters.js)
 - el controller [`watchListController.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/controllers/watchList/watchListController.js)
+- el middleware [`authMiddleware.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/middlewares/authMiddleware.js)
 - la carpeta interna [`@watchList.md`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/controllers/watchList/@watchList.md)
 
 Tambien se conecto la ruta en [`server.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/server.js):
@@ -142,6 +143,7 @@ Ahora mismo `watchlist` ya tiene:
 Aunque la ruta ya funciona a nivel base, todavia hay una mejora clave pendiente:
 
 - asegurar que el usuario que agrega la pelicula este realmente autenticado
+- completar la logica real de `authMiddleware`
 
 ## Siguiente paso natural
 
