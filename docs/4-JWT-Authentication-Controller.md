@@ -367,4 +367,18 @@ Ahora mismo tu modulo de auth ya tiene:
 - uso de `.env` para secretos
 - soporte para cookie `httpOnly`
 
-El siguiente paso natural seria proteger rutas con middleware para leer y verificar el token.
+## Siguiente punto: middleware para watchlist
+
+El siguiente paso natural es crear middleware de autenticacion.
+
+Ese middleware va a ser necesario en `watchlist`, porque ahi queremos asegurar que el usuario que agrega una pelicula a su lista realmente este logueado.
+
+La idea es esta:
+
+- el usuario hace login
+- recibe un JWT
+- el middleware lee y valida ese token
+- si el token es correcto, deja pasar la peticion
+- entonces el usuario puede agregar la pelicula a `watchlist`
+
+En otras palabras, `watchlist` es el siguiente punto importante porque ya no basta con recibir un `userId` manual: necesitamos comprobar que el usuario autenticado sea quien hace la accion.

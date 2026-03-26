@@ -14,3 +14,7 @@ Dentro de `auth/` se agrupan los controllers relacionados con autenticacion, com
 - `registerController.js`
 - `loginController.js`
 - `logoutController.js`
+
+Dentro de `watchList/` se agrupan los controllers relacionados con la watchlist, como:
+
+- `watchListController.js`
