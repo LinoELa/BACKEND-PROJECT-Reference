@@ -1,8 +1,10 @@
 // ======================= IMPORTS =========================================
 
 import express from "express";
-import { addToWatchListController } from "../controllers/watchList/watchListController.js";
+import { addToWatchListController } from "../controllers/watchList/addWatchListController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { removeFromWatchListController } from "../controllers/watchList/removeWatchListController.js";
+import { updateWatchListController } from "../controllers/watchList/updateWatchListController.js";
 
 // ======================= EXPRESS ROUTER ==================================
 
@@ -25,6 +27,7 @@ const router = express.Router();
  * @MIDDLEWARE | authMiddleware
  *
  */
+// Todas las rutas de watchlist quedan protegidas por este middleware.
 router.use(authMiddleware);
 
 // ======================= WATCHLIST ROUTES ================================
@@ -39,5 +42,11 @@ router.use(authMiddleware);
  */
 // Agrega una pelicula a la watchlist del usuario.
 router.post("/", addToWatchListController);
+
+// Elimina un item concreto de la watchlist por su id.
+router.delete("/:id", removeFromWatchListController);
+
+// Actualizar un item concreto de la watchlist por su id.
+router.put("/:id", updateWatchListController);
 
 export default router;

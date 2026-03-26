@@ -62,7 +62,7 @@ Por ejemplo:
 
 Si se crea `watchList`:
 
-- no basta con crear `watchListController.js`
+- no basta con crear un solo controller de watchlist
 - tambien hay que revisar el router
 - tambien hay que revisar si `server.js` monta la ruta
 - tambien hay que crear `@watchList.md`

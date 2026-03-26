@@ -71,7 +71,9 @@ src/
     watchListRouters.js
   controllers/
     watchList/
-      watchListController.js
+      addWatchListController.js
+      removeWatchListController.js
+      updateWatchListController.js
 ```
 
 ## Lo que ya esta hecho
@@ -82,6 +84,7 @@ En esta fase ya tenemos:
 - `authMiddleware.js`
 - uso del middleware en `watchListRouters.js`
 - estructura de `req.user`
+- controllers de watchlist preparados para trabajar con `req.user.id`
 - documentacion interna de middlewares
 
 ## Lo que aun falta mejorar
