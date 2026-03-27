@@ -1,4 +1,4 @@
-﻿# PedroTech-express
+﻿# Backend Reference Express
 
 Backend con `Express`, `Prisma`, `PostgreSQL` y `JWT`.
 
@@ -268,3 +268,4 @@ Tienes documentacion adicional en:
 - `docs/9-Movie-Controllers-and-Get.md`
 - `docs/github.md`
 - `docs/prepararTodo.md`
+

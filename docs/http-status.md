@@ -1,4 +1,4 @@
-# HTTP Status
+﻿# HTTP Status
 
 ## Que son los codigos HTTP
 
@@ -156,3 +156,4 @@ En este proyecto puedes usar estos codigos como base:
 ## Resumen
 
 Elegir bien el codigo HTTP hace que tu API sea mas clara, mas facil de depurar y mas profesional.
+

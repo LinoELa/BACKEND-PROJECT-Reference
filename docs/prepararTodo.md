@@ -1,4 +1,4 @@
-# prepararTodo
+﻿# prepararTodo
 
 ## Que significa "prepara todo"
 
@@ -45,8 +45,8 @@ Si falta algo necesario para que el bloque quede completo, tambien se debe agreg
 Por ejemplo:
 
 - crear un `@watchList.md` si aparece una carpeta nueva `watchList`
-- actualizar [`@controllers.md`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/controllers/@controllers.md) si aparece un nuevo grupo de controllers
-- actualizar [`@routers.md`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/src/routers/@routers.md) si aparece un router nuevo
+- actualizar [`@controllers.md`](../src/controllers/@controllers.md) si aparece un nuevo grupo de controllers
+- actualizar [`@routers.md`](../src/routers/@routers.md) si aparece un router nuevo
 - crear `@validations.md` si aparece la carpeta `validations`
 - actualizar seeds y su documentacion si cambia la estructura de `prisma/seed`
 - actualizar `README.md` o `docs/...` si el proyecto ya no coincide con lo escrito
@@ -81,3 +81,4 @@ La idea de `prepara todo` es que cada bloque quede:
 - documentado
 - consistente
 - listo para continuar con la siguiente parte del proyecto
+

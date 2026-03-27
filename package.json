@@ -1,7 +1,7 @@
 {
-  "name": "express-server",
+  "name": "backend-reference-express",
   "version": "1.0.0",
-  "description": "A simple Express server",
+  "description": "Backend Reference Express with Express, Prisma, PostgreSQL, and JWT",
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
@@ -29,14 +29,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LinoELa/PedroTech-express.git"
+    "url": "git+https://github.com/LinoELa/backend-reference-express.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/LinoELa/PedroTech-express/issues"
+    "url": "https://github.com/LinoELa/backend-reference-express/issues"
   },
-  "homepage": "https://github.com/LinoELa/PedroTech-express#readme"
+  "homepage": "https://github.com/LinoELa/backend-reference-express#readme"
 }

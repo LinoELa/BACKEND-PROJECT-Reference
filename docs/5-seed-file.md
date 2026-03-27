@@ -1,4 +1,4 @@
-# Seed File
+﻿# Seed File
 
 ## Que es un seed file
 
@@ -6,7 +6,7 @@ Un seed file sirve para insertar datos de prueba en la base de datos.
 
 En este proyecto el seed actual se usa para crear peliculas de ejemplo y relacionarlas con un usuario ya existente.
 
-El archivo es [`movieSeeds.js`](/c:/Users/Pc-lino-ela/Documents/Ela/DEVELOPER/EXPRESS-CRASH/PedroTech/prisma/seed/movieSeeds.js).
+El archivo es [`movieSeeds.js`](../prisma/seed/movieSeeds.js).
 
 ## Que hace este seed
 
@@ -115,3 +115,4 @@ Este seed actual no crea usuarios.
 Primero debes tener un usuario registrado en la base de datos y despues copiar su UUID dentro de `userId`.
 
 Luego ya puedes sembrar peliculas relacionadas con ese usuario.
+
